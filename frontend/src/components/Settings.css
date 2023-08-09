@@ -1,27 +1,46 @@
 .settings-page {
-    width: 500px;
+    max-width: 400px;
     margin: 0 auto;
     padding: 20px;
     background-color: #f9f9f9;
-    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.settings-page h1 {
+    text-align: center;
+    color: #333;
 }
 
 .settings-page label {
     display: block;
+    margin: 10px 0;
     font-weight: bold;
 }
 
 .settings-page input {
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .settings-page button {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
-    color: #fff;
+    color: white;
     border: none;
     cursor: pointer;
+    font-size: 16px;
+}
+
+.settings-page button:hover {
+    background-color: #0056b3;
+}
+
+.settings-page .message {
+    color: green;
+    text-align: center;
+    margin-top: 10px;
 }
