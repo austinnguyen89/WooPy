@@ -4,7 +4,7 @@ This module contains the Flask application setup and routes for the WooPy projec
 including endpoints for managing products, authentication, and settings.
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 from dotenv import load_dotenv
 from product_management import ProductManagement
 from woocommerce import API
@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 # WooCommerce API setup
 wcapi = API(
-    url=settings.WOO_COMMERCE_URL,  # Retrieve from settings
+    url=settings.WOO_COMMERCE_URL,
     consumer_key=settings.WOO_COMMERCE_API_KEY,
     consumer_secret=settings.WOO_COMMERCE_API_SECRET,
     version="wc/v3"
@@ -27,65 +27,39 @@ wcapi = API(
 # Product management instance
 product_management = ProductManagement(wcapi)
 
-# Route to get all products
-
 
 @app.route('/products', methods=['GET'])
 def get_products():
+    """Fetch all products."""
     products = product_management.get_products()
     return jsonify(products)
-
-# Route to add a new product
 
 
 @app.route('/products', methods=['POST'])
 def add_product():
+    """Add a new product."""
     product_data = request.json
+    if 'name' not in product_data or 'price' not in product_data:
+        abort(400, description="Missing required fields")
     response = product_management.add_product(product_data)
     return jsonify(response)
-
-# Route to update a product
 
 
 @app.route('/products/<int:product_id>', methods=['PUT'])
 def update_product(product_id):
+    """Update an existing product."""
     updated_data = request.json
     response = product_management.update_product(product_id, updated_data)
     return jsonify(response)
 
-# Route to delete a product
-
 
 @app.route('/products/<int:product_id>', methods=['DELETE'])
 def delete_product(product_id):
+    """Delete a product."""
     response = product_management.delete_product(product_id)
     return jsonify(response)
 
-# Route to update WooCommerce API settings
-
-
-@app.route('/settings', methods=['PUT'])
-def update_settings():
-    new_settings = request.json
-    # Logic to update settings (e.g., save to database or file)
-    return jsonify({"message": "Settings updated successfully"})
-
-# Route for user authentication (e.g., login)
-
-
-@app.route('/auth/login', methods=['POST'])
-def login():
-    credentials = request.json
-    # Logic to authenticate user
-    return jsonify({"message": "Login successful"})
-
-# Route for user logout
-
-
-@app.route('/auth/logout', methods=['POST'])
-def logout():
-    # Logic to log out user
-    return jsonify({"message": "Logout successful"})
+# Additional routes for authentication, settings, etc.
 
 
 # Run the app
