@@ -1,0 +1,20 @@
+.products-page {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.products-page table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.products-page th,
+.products-page td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.products-page th {
+    background-color: #f0f0f0;
+}
